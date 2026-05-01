@@ -14,6 +14,22 @@ function criarGrafico() {
     },
     options: {
       responsive: true
+
+      options: {
+  scales: {
+    x: {
+      ticks: { color: 'white' }
+    },
+    y: {
+      ticks: { color: 'white' }
+    }
+  },
+  plugins: {
+    legend: {
+      labels: { color: 'white' }
+    }
+  }
+}
     }
   });
 }
