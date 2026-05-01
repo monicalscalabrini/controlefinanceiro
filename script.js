@@ -35,17 +35,24 @@ options: {
     type: 'bar',
     data: {
       labels: ['Entradas €', 'Saídas €', 'Entradas R$', 'Saídas R$'],
-      datasets: [{
-        label: 'Valores',
-        data: [0, 0, 0, 0],
-        backgroundColor: [
-          '#00ff88',
-          '#ff4d4d',
-          '#00c2ff',
-          '#ff9f40'
-        ],
-        borderRadius: 8
-      }]
+    datasets: [{
+  label: 'Valores',
+  data: [0, 0, 0, 0],
+  backgroundColor: [
+    'rgba(0, 255, 136, 0.8)',  // verde forte
+    'rgba(255, 77, 77, 0.8)',  // vermelho forte
+    'rgba(0, 194, 255, 0.8)',  // azul forte
+    'rgba(255, 159, 64, 0.8)'  // laranja forte
+  ],
+  borderColor: [
+    '#00ff88',
+    '#ff4d4d',
+    '#00c2ff',
+    '#ff9f40'
+  ],
+  borderWidth: 2,
+  borderRadius: 10
+}]
     },
     options: {
       responsive: true,
