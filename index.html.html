@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Controle Financeiro</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(to bottom, #2c4a7a, #1e3a5f);
+  color: white;
+}
+
+/* HEADER */
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* INPUTS */
+.topo {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+input, select, button {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* CARDS */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.card {
+  background: #2f4f85;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.valor {
+  font-size: 26px;
+  margin-top: 10px;
+}
+
+.verde { color: #00ff88; }
+.vermelho { color: #ff4d4d; }
+
+/* SALDO */
+.saldo {
+  background: linear-gradient(to right, #0f3d3e, #1c5c5d);
+}
+
+/* INFO */
+.info {
+  font-size: 12px;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Controle Financeiro</h1>
+
+<div class="topo">
+  <input id="desc" placeholder="Descrição">
+  <input id="valor" type="number" placeholder="Valor">
+
+  <select id="tipo">
+    <option value="entrada">Entrada</option>
+    <option value="saida">Saída</option>
+  </select>
+
+  <select id="moeda">
+    <option value="euro">Euro (€)</option>
+    <option value="real">Real (R$)</option>
+  </select>
+
+  <button onclick="add()">Adicionar</button>
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <h3>Entradas (€)</h3>
+    <div id="euroIn" class="valor verde">0.00</div>
+  </div>
+
+  <div class="card">
+    <h3>Entradas (R$)</h3>
+    <div id="realIn" class="valor verde">0.00</div>
+  </div>
+
+  <div class="card">
+    <h3>Saídas (€)</h3>
+    <div id="euroOut" class="valor vermelho">0.00</div>
+  </div>
+
+  <div class="card">
+    <h3>Saídas (R$)</h3>
+    <div id="realOut" class="valor vermelho">0.00</div>
+  </div>
+
+</div>
+
+<div class="grid">
+
+  <div class="card saldo">
+    <h3>Saldo (€)</h3>
+    <div id="saldoEuro" class="valor">0.00</div>
+    <div class="info">
+      Cotação: R$ <span id="cotacao">5.82</span><br>
+      Total em reais: R$ <span id="totalConvertido">0.00</span>
+    </div>
+  </div>
+
+  <div class="card saldo">
+    <h3>Saldo Total em Reais (R$)</h3>
+    <div id="saldoReal" class="valor">0.00</div>
+  </div>
+
+
+<div style="max-width:900px; margin:40px auto;">
+  <canvas id="grafico"></canvas>
+</div>
+
+
+</div>
+
+<!-- CHART.JS (IMPORTAÇÃO CORRETA) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let euroIn = 0, euroOut = 0;
+let realIn = 0, realOut = 0;
+
+let cotacao = 5.82;
+
+let chart;
+
+// 🔥 CRIA O GRÁFICO
+function criarGrafico() {
+  const ctx = document.getElementById('grafico');
+
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Entradas €', 'Saídas €', 'Entradas R$', 'Saídas R$'],
+      datasets: [{
+        label: 'Valores',
+        data: [0, 0, 0, 0]
+      }]
+    }
+  });
+}
+
+// 🔥 ADICIONAR DADOS
+function add() {
+  let valor = parseFloat(document.getElementById("valor").value);
+  let tipo = document.getElementById("tipo").value;
+  let moeda = document.getElementById("moeda").value;
+
+  if (isNaN(valor)) return;
+
+  if (tipo === "entrada") {
+    moeda === "euro" ? euroIn += valor : realIn += valor;
+  } else {
+    moeda === "euro" ? euroOut += valor : realOut += valor;
+  }
+
+  update();
+
+  // 🔥 LIMPAR CAMPOS (AGORA NO LUGAR CERTO)
+  document.getElementById("desc").value = "";
+  document.getElementById("valor").value = "";
+  document.getElementById("tipo").selectedIndex = 0;
+  document.getElementById("moeda").selectedIndex = 0;
+
+  document.getElementById("desc").focus();
+}
+
+// 🔥 ATUALIZA TUDO
+function update() {
+  let saldoEuro = euroIn - euroOut;
+  let saldoReal = realIn - realOut;
+
+  let totalConvertido = saldoEuro * cotacao;
+
+  document.getElementById("euroIn").innerText = euroIn.toFixed(2);
+  document.getElementById("realIn").innerText = realIn.toFixed(2);
+  document.getElementById("euroOut").innerText = euroOut.toFixed(2);
+  document.getElementById("realOut").innerText = realOut.toFixed(2);
+
+  document.getElementById("saldoEuro").innerText = saldoEuro.toFixed(2);
+  document.getElementById("saldoReal").innerText = (saldoReal + totalConvertido).toFixed(2);
+
+  document.getElementById("totalConvertido").innerText = totalConvertido.toFixed(2);
+
+  // 🔥 ATUALIZA GRÁFICO
+  chart.data.datasets[0].data = [
+    euroIn,
+    euroOut,
+    realIn,
+    realOut
+  ];
+
+  chart.update();
+}
+
+// 🔥 INICIA O GRÁFICO
+criarGrafico();
+</script>
+
+
+</body>
+</html>
