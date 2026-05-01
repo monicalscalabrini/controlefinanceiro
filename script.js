@@ -21,11 +21,37 @@ options: {
   },
 
   scales: {
-    x: {
-      ticks: { color: '#ffffff' }
+  x: {
+    ticks: {
+      color: '#ffffff',
+      font: { size: 13 }
     },
-    y: {
-      ticks: { color: '#ffffff' }
+    grid: {
+      color: 'rgba(255,255,255,0.2)', // 🔥 mais visível
+      lineWidth: 1
+    }
+  },
+  y: {
+    ticks: {
+      color: '#ffffff',
+      font: { size: 13 }
+    },
+    grid: {
+      color: 'rgba(255,255,255,0.2)', // 🔥 mais visível
+      lineWidth: 1
+
+plugins: {
+  legend: {
+    labels: {
+      color: '#ffffff',
+      font: {
+        size: 14,
+        weight: 'bold'
+      }
+    }
+  }
+}
+      
     }
   }
 }
