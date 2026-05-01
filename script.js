@@ -7,6 +7,30 @@ let cotacao = 5.82;
 function criarGrafico() {
   const ctx = document.getElementById('grafico').getContext('2d');
 
+
+options: {
+  responsive: true,
+  maintainAspectRatio: false, // 🔥 ISSO AQUI É O SEGREDO
+
+  plugins: {
+    legend: {
+      labels: {
+        color: '#ffffff'
+      }
+    }
+  },
+
+  scales: {
+    x: {
+      ticks: { color: '#ffffff' }
+    },
+    y: {
+      ticks: { color: '#ffffff' }
+    }
+  }
+}
+
+  
   chart = new Chart(ctx, {
     type: 'bar',
     data: {
