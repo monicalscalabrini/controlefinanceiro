@@ -13,26 +13,24 @@ function criarGrafico() {
       }]
     },
     options: {
-      responsive: true
-
-      options: {
-  scales: {
-    x: {
-      ticks: { color: 'white' }
-    },
-    y: {
-      ticks: { color: 'white' }
-    }
-  },
-  plugins: {
-    legend: {
-      labels: { color: 'white' }
-    }
-  }
-}
+      responsive: true,
+      scales: {
+        x: {
+          ticks: { color: 'white' }
+        },
+        y: {
+          ticks: { color: 'white' }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: { color: 'white' }
+        }
+      }
     }
   });
 }
+
 function add() {
   let valor = parseFloat(document.getElementById("valor").value);
   let tipo = document.getElementById("tipo").value;
