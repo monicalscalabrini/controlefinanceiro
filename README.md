@@ -2,7 +2,7 @@
 
 # 💰 Controle Financeiro
 
-Aplicação web simples para gerenciamento de finanças pessoais, permitindo registrar entradas e saídas em diferentes moedas, calcular saldo e visualizar os dados por meio de gráficos.
+Aplicação web simples para gerenciamento de finanças pessoais, permitindo registrar entradas e saídas em reais ou euro , calcular saldo, realizar a conversao em tempo real e visualizar os dados por meio de gráficos.
 
 ---
 
